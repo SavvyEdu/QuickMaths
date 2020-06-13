@@ -1,0 +1,39 @@
+body{
+    background: #dedede
+}
+
+.neu,
+.neo.out{
+    border-radius: 5px;
+    background: #dedede;
+    box-shadow:  4px 4px 8px #bdbdbd, 
+                 -4px -4px 8px #ffffff;
+    border: none;
+}
+
+
+.neu.in{
+    border-radius: 5px;
+    background: #dedede;
+    border: none;
+    box-shadow: inset 4px 4px 8px #bdbdbd, 
+                inset -4px -4px 8px #ffffff;
+}
+
+input,
+.neu.inMin{
+    border-radius: 2px;
+    background: #dedede;
+    border: none;
+    box-shadow: inset 2px 2px 4px #bdbdbd, 
+                inset -2px -2px 4px #ffffff;
+}
+
+button,
+.neu.outMin{
+    border-radius: 5px;
+    background: #dedede;
+    box-shadow:  2px 2px 4px #bdbdbd, 
+                 -2px -2px 4px #ffffff;
+    border: none;
+}

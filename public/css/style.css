@@ -1,0 +1,24 @@
+#messages{
+    height: 500px;
+    overflow: auto;
+}
+
+.flex{
+    display: flex;
+}
+
+button{
+    margin-top: 10px;
+}
+
+article{
+ width: 70%;
+ padding: 10px;
+}
+
+aside{
+width: 30%;
+padding: 10px;
+float: right;
+margin-left: 10px;
+}
