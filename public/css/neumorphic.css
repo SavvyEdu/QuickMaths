@@ -2,6 +2,21 @@ body{
     background: #dedede
 }
 
+::-webkit-scrollbar {
+    width: 0.5em;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background: darkcyan;
+ }
+
+button,
+label{
+    color: darkcyan;
+    font-weight: 600;
+}
+
 .neu,
 .neo.out{
     border-radius: 5px;
@@ -10,7 +25,6 @@ body{
                  -4px -4px 8px #ffffff;
     border: none;
 }
-
 
 .neu.in{
     border-radius: 5px;
