@@ -9,6 +9,14 @@ var server = app.listen(PORT, function(){
     console.log(`listening on port: ${PORT}`)
 })
 
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/public/index.html');
+});
+
+app.get('/room', (req, res) => {
+    res.sendFile(__dirname + '/public/room.html');
+});
+
 app.use(express.static('public'))
 
 const io = socket(server);
@@ -26,13 +34,18 @@ game.on('connection', function(socket){
         console.log('user disconnected ' + socket.id);
     });
 
-    //receive a chat message
-    socket.on('chat', function(data){
-        //send message to all sockets
-        game.emit('chat', data);
+    socket.on('join', (data) => {
+        socket.join(data.room); //join the room
+        game.in(data.room).emit('chat', 'joined room')
     });
 
-    socket.on('typing', function(data){
+    //receive a chat message
+    socket.on('chat', (data) => {
+        //send message to all sockets
+        game.emit('chat', data.message);
+    });
+
+    socket.on('typing', (data) => {
         socket.broadcast.emit('typing', data)
     });
     

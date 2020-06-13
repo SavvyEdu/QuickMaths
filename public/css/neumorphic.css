@@ -1,5 +1,6 @@
 body{
-    background: #dedede
+    background: #dedede;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 ::-webkit-scrollbar {
@@ -43,6 +44,7 @@ input,
                 inset -2px -2px 4px #ffffff;
 }
 
+
 button,
 .neu.outMin{
     border-radius: 5px;
@@ -50,4 +52,9 @@ button,
     box-shadow:  2px 2px 4px #bdbdbd, 
                  -2px -2px 4px #ffffff;
     border: none;
+}
+
+hr{
+    border: 1px solid darkcyan;
+    margin: 20px;
 }
