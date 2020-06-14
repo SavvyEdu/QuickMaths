@@ -8,14 +8,54 @@
     <link href = "css/style.css" rel = "stylesheet"/>
   </head>
   <body>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    
     <div class="container" style="margin-top: 50px;"> 
-      <div id = "room-select" class="neu">
+
+      <!--ROOM-->
+      <div id = "room-menu" class="neu">
         <h1>Quick Maths</h1>
         <h6>Math Battle Royale</h6>
         <hr>
-        <button id = "host-button">Host</button>
-        <button id = "join-button" onclick="location.href='/room';" >Join</button>
+
+        <div id = "initial-menu">
+          <button id = "host-button">Host</button>
+          <button id = "join-button">Join</button> 
+        </div>
+
+        <div id = "join-menu">
+          <div id = "code-menu">
+            <label for = "code">Code:</label>
+            <input id="code" autocomplete="off"/>
+            <br>
+          </div>
+          <label for = "name">Name:</label>
+          <input id="name" autocomplete="off"/>
+          <br>
+          <button id = "back-button" >Back</button>
+          <button id = "start-button" >Join</button>
+        </div>
+
+      </div>
+
+      <!--GAME-->
+      <div id = "game-menu">
+        <div class="flex">
+          <article class="neu">
+            Placeholder
+          </article>
+          <aside class="neu">
+            <ul id="messages" class="neu inMin"></ul>
+            <form action="">
+              <label for = "m">Message Room</label>
+              <input class="u-full-width" id="m" autocomplete="off"/>
+              <button class="u-full-width">Send</button>
+            </form>
+          </aside>
+        </div>
       </div>
     </div>
+    <script src="js/client.js"></script>
   </body>
 </html>

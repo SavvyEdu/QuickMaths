@@ -54,6 +54,10 @@ button,
     border: none;
 }
 
+input{
+    padding: 10px;
+}
+
 hr{
     border: 1px solid darkcyan;
     margin: 20px;

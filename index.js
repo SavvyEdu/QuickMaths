@@ -21,9 +21,12 @@ app.use(express.static('public'))
 
 const io = socket(server);
 
-//NAMESPACE
+//NAMESPACE & ROOMS
 
 const game = io.of('/game');
+
+const rooms = require('./server/rooms')
+let RoomManager =  new rooms.RoomManager();
 
 //SOCKET EVENTS
 
@@ -34,15 +37,26 @@ game.on('connection', function(socket){
         console.log('user disconnected ' + socket.id);
     });
 
+    socket.on('host', (data) => {
+        let room = RoomManager.addRoom();
+        socket.join(room); //join the room
+        game.in(room).emit('room', room); //send back the room code 
+        game.in(room).emit('chat', 'created room'); //send back the chat message
+    });
+
     socket.on('join', (data) => {
-        socket.join(data.room); //join the room
-        game.in(data.room).emit('chat', 'joined room')
+        //check if the room exists
+        if(RoomManager.containsRoom(data.room)){
+            socket.join(data.room); //join the room
+            game.in(data.room).emit('room', data.room); //send back the room code 
+            game.in(data.room).emit('chat', 'joined room') //send back the chat message
+        }
     });
 
     //receive a chat message
     socket.on('chat', (data) => {
         //send message to all sockets
-        game.emit('chat', data.message);
+        game.in(data.room).emit('chat', data.message);
     });
 
     socket.on('typing', (data) => {

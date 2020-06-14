@@ -3,7 +3,11 @@
     
 }
 
-#room-select{
+.hidden{
+    display: none;
+}
+
+#room-menu{
     text-align: center;
     padding: 10px;
     min-height: 500px;
@@ -12,6 +16,7 @@
 #messages{
     height: 400px;
     overflow: auto;
+    overflow-x: hidden;
     list-style-type: none;
 }
 
@@ -26,7 +31,6 @@
 .flex{
     display: flex;
 }
-
 
 button{
     margin-top: 10px;

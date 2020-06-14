@@ -8,6 +8,10 @@
     "debug": "set DEBUG=* & npm run start",
     "start": "nodemon ./index.js"
   },
+  "repository": {
+		"type": "git",
+		"url": "git+https://github.com/SavvyEdu/QuickMaths.git"
+	},
   "author": "Savvy",
   "license": "ISC",
   "dependencies": {
