@@ -38,10 +38,10 @@ game.on('connection', function(socket){
     });
 
     socket.on('host', (data) => {
-        let room = RoomManager.addRoom();
+        let room = RoomManager.addRoom(); //make a new room
         socket.join(room); //join the room
         game.in(room).emit('room', room); //send back the room code 
-        game.in(room).emit('chat', 'created room'); //send back the chat message
+        game.in(room).emit('chat', `${ data.name } created room`); //send back the chat message
     });
 
     socket.on('join', (data) => {
@@ -49,14 +49,14 @@ game.on('connection', function(socket){
         if(RoomManager.containsRoom(data.room)){
             socket.join(data.room); //join the room
             game.in(data.room).emit('room', data.room); //send back the room code 
-            game.in(data.room).emit('chat', 'joined room') //send back the chat message
+            game.in(data.room).emit('chat', `${ data.name } joined room`) //send back the chat message
         }
     });
 
     //receive a chat message
     socket.on('chat', (data) => {
         //send message to all sockets
-        game.in(data.room).emit('chat', data.message);
+        game.in(data.room).emit('chat', `${data.name}: ${data.message}`);
     });
 
     socket.on('typing', (data) => {

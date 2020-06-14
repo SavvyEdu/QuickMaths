@@ -12,7 +12,7 @@ $(function () {
 
     //SEND the message and room
     if(msg != ""){
-      socket.emit('chat', {message: msg, room: room });
+      socket.emit('chat', {name: username, message: msg, room: room });
     }
     
     return false;
@@ -25,9 +25,9 @@ $(function () {
 
   });
 
-  socket.on('room', (r) => {
-    console.log(r);
+  socket.on('room', (r) => {    
     room = r;
+    $('#code-display').text(room);
     setMenuState('GAME');
   })
 
@@ -37,7 +37,7 @@ $(function () {
 
 });
 
-
+let username = '';
 let isHost = false;
 
 //MENU AND NAVIGATION 
@@ -79,16 +79,16 @@ $('#back-button').click(() => setMenuState('INITIAL'));
 
 $('#start-button').click(function(){
     let code =  $('#code').val();
-    let name =  $('#name').val();
+    username =  $('#name').val();
 
     if(isHost){
-      if(name != ""){
-        socket.emit('host', { name: name })
+      if(username != ""){
+        socket.emit('host', { name: username })
       }
     }else{
-      if(name != ""){
+      if(username != ""){
         //SEND a join event
-        socket.emit('join', { name: name, room: code });
+        socket.emit('join', { name: username, room: code });
       }
     }
 

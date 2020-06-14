@@ -12,6 +12,9 @@ body{
     background: darkcyan;
  }
 
+h1,
+h2,
+h3,
 button,
 label{
     color: darkcyan;
@@ -56,6 +59,14 @@ button,
 
 input{
     padding: 10px;
+}
+
+button{
+    border: 2px solid #dedede;
+    transition: 0.1s;
+}
+button:hover{
+    border: 2px solid black;
 }
 
 hr{
