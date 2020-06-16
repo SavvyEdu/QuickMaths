@@ -21,13 +21,22 @@ $(function () {
   //SOCKET EVENTS
 
   socket.on('connect', () => {
-    console.log('connected to socket')
-
+    console.log('connected to socket');
   });
 
-  socket.on('room', (r) => {    
-    room = r;
-    $('#code-display').text(room);
+  socket.on('room', (data) => {  
+    
+    let count = data.names.length
+
+    $('#code-display').text(data.room);
+    $('#player-count').text(count);
+
+    //update the names
+    $('#players').empty();
+    for(let i = 0; i < count; i++){
+        $('#players').append($('<li>').text(data.names[i]));
+    }
+   
     setMenuState('GAME');
   })
 

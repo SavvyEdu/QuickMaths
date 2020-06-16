@@ -26,12 +26,9 @@
 
         <div id = "join-menu">
           <div id = "code-menu">
-            <label for = "code">Code:</label>
-            <input id="code" autocomplete="off"/>
-            <br>
+            <input id="code" placeholder = "Room code" autocomplete="off"/>
           </div>
-          <label for = "name">Name:</label>
-          <input id="name" autocomplete="off"/>
+          <input id="name" placeholder = "Username"autocomplete="off"/>
           <br>
           <button id = "back-button" >Back</button>
           <button id = "start-button" >Join</button>
@@ -44,12 +41,18 @@
         <div class="flex">
           <article class="neu">
             <h3 id = "code-display">FFFF</h3>
+
+            <div id = "players-menu">
+              <h6>Players (<span id = "player-count"></span>)</h6>
+              <ul id = "players">
+              </ul>
+            </div>
+
           </article>
           <aside class="neu">
             <ul id="messages" class="neu inMin"></ul>
             <form action="">
-              <label for = "m">Message Room</label>
-              <input class="u-full-width" id="m" autocomplete="off"/>
+              <input class="u-full-width" id="m" placeholder = "Message"autocomplete="off"/>
               <button class="u-full-width">Send</button>
             </form>
           </aside>

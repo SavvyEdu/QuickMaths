@@ -17,12 +17,20 @@
     height: 400px;
     overflow: auto;
     overflow-x: hidden;
+}
+
+ul{
     list-style-type: none;
 }
 
-#messages li{
+li{
     padding: 5px 10px;
     margin: 0;
+}
+
+article li{
+    margin-top: 5px;
+    border: 2px solid darkcyan;
 }
 
 #messages li:nth-child(even) { background: rgba(50, 50, 50, 0.1); }

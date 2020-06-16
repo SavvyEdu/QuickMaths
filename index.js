@@ -38,9 +38,17 @@ game.on('connection', function(socket){
     });
 
     socket.on('host', (data) => {
+
         let room = RoomManager.addRoom(); //make a new room
         socket.join(room); //join the room
-        game.in(room).emit('room', room); //send back the room code 
+        RoomManager.addPlayer(room, data.name);//add player to room
+
+        //send back the room code 
+        game.in(room).emit('join-room', {
+            room: room, 
+            names: RoomManager.getPlayers(room)
+        }); 
+
         game.in(room).emit('chat', `${ data.name } created room`); //send back the chat message
     });
 
@@ -48,7 +56,13 @@ game.on('connection', function(socket){
         //check if the room exists
         if(RoomManager.containsRoom(data.room)){
             socket.join(data.room); //join the room
-            game.in(data.room).emit('room', data.room); //send back the room code 
+            RoomManager.addPlayer(data.room, data.name);//add player to room
+
+            //send back the room code 
+            game.in(data.room).emit('join-room', {
+                room: data.room, 
+                names: RoomManager.getPlayers(data.room)
+            }); 
             game.in(data.room).emit('chat', `${ data.name } joined room`) //send back the chat message
         }
     });
