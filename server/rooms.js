@@ -3,6 +3,7 @@ class RoomManager{
     constructor(){
         //create a new dictionary
         this.rooms = {};
+        this.id_lookup = {};
     }  
 
     addRoom(){
@@ -33,24 +34,37 @@ class RoomManager{
         delete this.rooms[room];
     }   
 
-    addPlayer(room, username){
-        if(this.containsRoom(room)){
-            this.rooms[room].push(username);
-            return true;
-        }
-        return false;
-    }
+    addPlayer(room, id, username){
+        this.rooms[room].push({
+            id: id,
+            username: username
+        });
 
+        this.id_lookup[id] = room;
+    }
+    
     playerCount(room){
         return this.rooms[room].length;
     }
 
     getPlayers(room){
-        return this.rooms[room];
+        let usernames = [];
+        this.rooms[room].forEach(element => {
+            usernames.push(element.username);
+        });
+        return usernames;
     }
 
-    removePlayer(room, username){
+    removePlayer(id){
 
+        if(id in this.id_lookup){
+            let room = this.id_lookup[id];
+            this.rooms[room] = this.rooms[room].filter((item) => item.id !== id);
+    
+            return room; //return room code so room can be updated
+        }
+
+        return undefined;
     }
 }
 

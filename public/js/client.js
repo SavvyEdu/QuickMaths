@@ -24,7 +24,7 @@ $(function () {
     console.log('connected to socket');
   });
 
-  socket.on('room', (data) => {  
+  socket.on('update-players', (data) => {  
     
     let count = data.names.length
 

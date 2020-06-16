@@ -35,16 +35,29 @@ game.on('connection', function(socket){
 
     socket.on('disconnect', () => {
         console.log('user disconnected ' + socket.id);
+        
+        let room = RoomManager.removePlayer(socket.id);
+        if(room != undefined){
+            if(RoomManager.playerCount(room) == 0){
+                RoomManager.removeRoom(room);
+            }else{
+                game.in(room).emit('update-players', {
+                    room: room,
+                    names: RoomManager.getPlayers(room)
+                });
+            }
+        }
+        console.log(room);
     });
 
     socket.on('host', (data) => {
 
         let room = RoomManager.addRoom(); //make a new room
         socket.join(room); //join the room
-        RoomManager.addPlayer(room, data.name);//add player to room
+        RoomManager.addPlayer(room, socket.id, data.name);//add player to room
 
         //send back the room code 
-        game.in(room).emit('join-room', {
+        game.in(room).emit('update-players', {
             room: room, 
             names: RoomManager.getPlayers(room)
         }); 
@@ -56,10 +69,10 @@ game.on('connection', function(socket){
         //check if the room exists
         if(RoomManager.containsRoom(data.room)){
             socket.join(data.room); //join the room
-            RoomManager.addPlayer(data.room, data.name);//add player to room
+            RoomManager.addPlayer(data.room, socket.id, data.name);//add player to room
 
             //send back the room code 
-            game.in(data.room).emit('join-room', {
+            game.in(data.room).emit('update-players', {
                 room: data.room, 
                 names: RoomManager.getPlayers(data.room)
             }); 
