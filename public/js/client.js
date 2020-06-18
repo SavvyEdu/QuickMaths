@@ -25,7 +25,7 @@ $(function () {
   });
 
   socket.on('update-players', (data) => {  
-    
+    room = data.room
     let count = data.names.length
 
     $('#code-display').text(data.room);
@@ -37,11 +37,16 @@ $(function () {
         $('#players').append($('<li>').text(data.names[i]));
     }
    
-    setMenuState('GAME');
+    setMenuState('READY');
   })
 
   socket.on('chat', (msg) => {
     $('#messages').append($('<li>').text(msg));
+  });
+
+  socket.on('show-problem', (data) => {
+    console.log('show');
+    $('#problem').text(data.problem);
   });
 
 });
@@ -51,32 +56,35 @@ let isHost = false;
 
 //MENU AND NAVIGATION 
 
-let hideMenu = (id) => $(id).addClass('hidden');
-let showMenu = (id) => $(id).removeClass('hidden'); 
+let hide = (id) => $(id).addClass('hidden');
+let show = (id) => $(id).removeClass('hidden'); 
 
 function setMenuState(state){
     console.log(state);
     switch(state){
         case 'INITIAL':
-          hideMenu('#code-menu');
-          hideMenu('#join-menu');
-          hideMenu('#game-menu');
-          showMenu('#initial-menu');
+          hide('#code-menu');
+          hide('#join-menu');
+          hide('#game-menu');
+          show('#initial-menu');
           break;
         case 'HOST':
           isHost = true;
-          hideMenu('#initial-menu');
-          showMenu('#join-menu');
+          hide('#initial-menu');
+          show('#join-menu');
           break;
         case 'JOIN':
           isHost = false;
-          hideMenu('#initial-menu');
-          showMenu('#join-menu');
-          showMenu('#code-menu');
+          hide('#initial-menu');
+          show('#join-menu');
+          show('#code-menu');
           break;
-        case 'GAME':
-          hideMenu('#room-menu');
-          showMenu('#game-menu')  
+        case 'READY':
+          hide('#room-menu');
+          show('#game-menu');  
+        case 'PROBLEM':
+          hide('#player-menu');
+          show('#problem-menu');
     }
 }
 
@@ -101,4 +109,8 @@ $('#start-button').click(function(){
       }
     }
 
+});
+
+$('#ready-button').click(function(){
+  socket.emit('ready', {room: room});
 });

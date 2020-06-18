@@ -25,11 +25,13 @@ const io = socket(server);
 
 const game = io.of('/game');
 
-const rooms = require('./server/rooms')
+const rooms = require('./server/rooms');
 let RoomManager =  new rooms.RoomManager();
 
-//SOCKET EVENTS
+const problems = require('./server/problem');
+let ProblemGenerator = new problems.ProblemGenerator();
 
+//SOCKET EVENTS
 game.on('connection', function(socket){
     console.log('made socket connection ' + socket.id);
 
@@ -78,6 +80,14 @@ game.on('connection', function(socket){
             }); 
             game.in(data.room).emit('chat', `${ data.name } joined room`) //send back the chat message
         }
+    });
+
+    socket.on('ready', (data) => {
+        let problem = ProblemGenerator.newProblem();
+        console.log(data);
+        game.in(data.room).emit('show-problem', {
+            problem: problem
+        });
     });
 
     //receive a chat message
