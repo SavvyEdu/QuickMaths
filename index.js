@@ -60,12 +60,9 @@ game.on('connection', function(socket){
         RoomManager.addPlayer(room, socket.id, data.name);//add player to room
 
         //send back the room code 
-        game.in(room).emit('update-players', {
-            room: room, 
-            players: RoomManager.getPlayers(room)
-        }); 
+        game.to(socket.id).emit('join', { room: room });
+        game.in(room).emit('update-players', { players: RoomManager.getPlayers(room) }); 
 
-        game.in(room).emit('chat', `${ data.name } created room`); //send back the chat message
     });
 
     socket.on('join', (data) => {
@@ -75,27 +72,20 @@ game.on('connection', function(socket){
             RoomManager.addPlayer(data.room, socket.id, data.name);//add player to room
 
             //send back the room code 
-            game.in(data.room).emit('update-players', {
-                room: data.room, 
-                players: RoomManager.getPlayers(data.room)
-            }); 
+            game.to(socket.id).emit('join', { room: data.room });
+            game.in(data.room).emit('update-players', { players: RoomManager.getPlayers(data.room) });    
+
         }
     });
 
     socket.on('ready', (data) => {
         let problemData = ProblemGenerator.newProblem(); // { problem, solution }
-        console.log(data);
         game.in(data.room).emit('show-problem', problemData);
     });
 
     socket.on('solve', (data) => {
         RoomManager.updatePlayerTime(data.room, socket.id, data.time);
-
-        //send back the player info
-        game.in(data.room).emit('update-players', {
-            room: data.room, 
-            players: RoomManager.getPlayers(data.room)
-        }); 
+        game.in(data.room).emit('update-players', { players: RoomManager.getPlayers(data.room) });
     });
     
 });

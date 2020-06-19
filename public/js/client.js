@@ -16,25 +16,28 @@ $(function () {
     console.log('connected to socket');
   });
 
-  socket.on('update-players', (data) => {  
+  socket.on('join', (data) => {
+
+    console.log('join' + data.room);
+
     room = data.room
-
-    let count = data.players.length
-
     $('#code-display').text(data.room);
+    setMenuState('READY');
+  })
+
+  socket.on('update-players', (data) => {  
+   
+    //update the player count
+    let count = data.players.length
     $('#player-count').text(count);
 
     //update the names
-
     $('#name-table').empty();
     $('#name-table').append('<tr><th>Name</th><th>Time</th></tr>');
     for(let i = 0; i < count; i++){
       let row = `<tr><td>${data.players[i].username}</td><td>${data.players[i].time}</td></tr>`
       $('#name-table').append(row);
     }
-
-
-    setMenuState('READY');
   })
 
   socket.on('show-problem', (data) => {
@@ -51,7 +54,7 @@ let hide = (id) => $(id).addClass('hidden');
 let show = (id) => $(id).removeClass('hidden'); 
 
 function setMenuState(state){
-    console.log(state);
+    console.log("state: " + state);
     switch(state){
         case 'INITIAL':
           hide('#code-menu');
