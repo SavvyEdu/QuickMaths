@@ -6,6 +6,8 @@ let solution; //solution to the given problem
 let username = '';
 let isHost = false;
 
+let startTime = 0;
+
 $(function () {
 
   socket = io('/game');
@@ -44,6 +46,9 @@ $(function () {
     setMenuState('PROBLEM');
     solution = data.solution; //store the solution
     $('#problem').text(data.problem);
+
+    //start the timer
+    startTime = Date.now();
   });
 
 });
@@ -124,8 +129,8 @@ $('#problem-form').submit(function(e) {
   let answer = parseInt($('#s').val());
 
   if(answer == solution){
-    console.log("CORRECT");
-    socket.emit('solve', {name: username, room: room, time: 1.5 });
+    let milliseconds = Date.now() - startTime;
+    socket.emit('solve', {name: username, room: room, time: milliseconds / 1000 });
     setMenuState('READY');
   }
 
