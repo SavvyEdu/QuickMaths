@@ -44,34 +44,34 @@
 
             <!--READY SCREEN-->
             <div id = "players-menu" >
-
+              <p>Waiting for Ready</p>
               <button id = "ready-button">Ready</button>
-
-              <h6>Players (<span id = "player-count"></span>)</h6>
-              <ul id = "players">
-              </ul>
             </div>
 
             <!--PROBLEM SCREEN-->
             <div id = "problem-menu">
               <h1 id = "problem">2 + 2 = __</h1>
-              <form action="">
+              <form id = "problem-form" action="">
                 <input id="s" placeholder="answer" autocomplete="off"/>
               </form>
             </div>
             
-
           </article>
           <aside class="neu">
-            <ul id="messages" class="neu inMin"></ul>
-            <form action="">
-              <input class="u-full-width" id="m" placeholder = "Message" autocomplete="off"/>
-              <button class="u-full-width">Send</button>
-            </form>
+            <!--TIMES SCREEN-->
+            <div id = "names-menu">
+              <h6>Players (<span id = "player-count"></span>)</h6>
+              <table id = "name-table">
+                <tr>
+                  <th>Name</th>
+                  <th>Time</th>
+                </tr>
+              </table>
+            </div>
           </aside>
         </div>
       </div>
     </div>
-    <script src="js/client.js"></script>
+      <script src="js/client.js"></script>
   </body>
 </html>

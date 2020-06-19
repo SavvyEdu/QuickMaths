@@ -3,7 +3,7 @@ class RoomManager{
     constructor(){
         //create a new dictionary
         this.rooms = {};
-        this.id_lookup = {};
+        this.idToRoom = {};
     }  
 
     addRoom(){
@@ -20,7 +20,7 @@ class RoomManager{
         }while(this.containsRoom(room)); //make sure that room code is not in use
 
         //add to dictionary
-        this.rooms[room] = []
+        this.rooms[room] = {};
 
         console.log('room added: ' + room);
         return room;
@@ -35,32 +35,35 @@ class RoomManager{
     }   
 
     addPlayer(room, id, username){
-        this.rooms[room].push({
-            id: id,
-            username: username
-        });
+        this.rooms[room][id] = {
+            username: username,
+            time: 0
+        }
 
-        this.id_lookup[id] = room;
+        this.idToRoom[id] = room;
     }
     
     playerCount(room){
-        return this.rooms[room].length;
+        return Object.keys(this.rooms[room]).length;
     }
 
     getPlayers(room){
-        let usernames = [];
-        this.rooms[room].forEach(element => {
-            usernames.push(element.username);
-        });
-        return usernames;
+        let players = [];
+        for(let id in this.rooms[room]){
+            players.push(this.rooms[room][id]);
+        }
+        return players;
+    }
+
+    updatePlayerTime(room, id, time){
+        this.rooms[room][id].time = time;
     }
 
     removePlayer(id){
 
-        if(id in this.id_lookup){
-            let room = this.id_lookup[id];
-            this.rooms[room] = this.rooms[room].filter((item) => item.id !== id);
-    
+        if(id in this.idToRoom){
+            let room = this.idToRoom[id];
+            delete this.rooms[room][id];
             return room; //return room code so room can be updated
         }
 

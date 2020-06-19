@@ -1,12 +1,12 @@
 .container{
     margin-top: 50px;
-    
 }
 
 .hidden{
     display: none;
 }
 
+#game-menu,
 #room-menu{
     text-align: center;
     padding: 10px;
@@ -48,6 +48,7 @@ article{
  width: 70%;
  padding: 10px;
  text-align: center;
+ min-height: 500px;
 }
 
 aside{
@@ -55,4 +56,5 @@ width: 30%;
 padding: 10px;
 float: right;
 margin-left: 10px;
+min-height: 500px;
 }

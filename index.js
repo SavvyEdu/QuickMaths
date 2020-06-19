@@ -39,13 +39,14 @@ game.on('connection', function(socket){
         console.log('user disconnected ' + socket.id);
         
         let room = RoomManager.removePlayer(socket.id);
+        console.log('removed from' + room);
         if(room != undefined){
             if(RoomManager.playerCount(room) == 0){
                 RoomManager.removeRoom(room);
             }else{
                 game.in(room).emit('update-players', {
                     room: room,
-                    names: RoomManager.getPlayers(room)
+                    players: RoomManager.getPlayers(room)
                 });
             }
         }
@@ -61,7 +62,7 @@ game.on('connection', function(socket){
         //send back the room code 
         game.in(room).emit('update-players', {
             room: room, 
-            names: RoomManager.getPlayers(room)
+            players: RoomManager.getPlayers(room)
         }); 
 
         game.in(room).emit('chat', `${ data.name } created room`); //send back the chat message
@@ -76,28 +77,25 @@ game.on('connection', function(socket){
             //send back the room code 
             game.in(data.room).emit('update-players', {
                 room: data.room, 
-                names: RoomManager.getPlayers(data.room)
+                players: RoomManager.getPlayers(data.room)
             }); 
-            game.in(data.room).emit('chat', `${ data.name } joined room`) //send back the chat message
         }
     });
 
     socket.on('ready', (data) => {
-        let problem = ProblemGenerator.newProblem();
+        let problemData = ProblemGenerator.newProblem(); // { problem, solution }
         console.log(data);
-        game.in(data.room).emit('show-problem', {
-            problem: problem
-        });
+        game.in(data.room).emit('show-problem', problemData);
     });
 
-    //receive a chat message
-    socket.on('chat', (data) => {
-        //send message to all sockets
-        game.in(data.room).emit('chat', `${data.name}: ${data.message}`);
-    });
+    socket.on('solve', (data) => {
+        RoomManager.updatePlayerTime(data.room, socket.id, data.time);
 
-    socket.on('typing', (data) => {
-        socket.broadcast.emit('typing', data)
+        //send back the player info
+        game.in(data.room).emit('update-players', {
+            room: data.room, 
+            players: RoomManager.getPlayers(data.room)
+        }); 
     });
     
 });

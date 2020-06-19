@@ -4,7 +4,13 @@ class ProblemGenerator{
     }
 
     newProblem(){
-        return '2 + 4 = __';
+        //generate problem and solution
+
+        //return data
+        return {
+            problem: '2 + 2 = __',
+            solution: 4
+        };
     }
 }
 
