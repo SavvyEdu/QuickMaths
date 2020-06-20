@@ -47,6 +47,10 @@ $(function () {
     if(data){ show('#ready-button'); }
   })
 
+  socket.on('show-round-info', (data) => {
+    $('#round-info').text(data);
+  })
+
   socket.on('show-problem', (data) => {
     setMenuState('PROBLEM');
     solution = data.solution; //store the solution

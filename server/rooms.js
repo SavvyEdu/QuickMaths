@@ -89,8 +89,9 @@ class RoomManager{
         let data = {
             eliminated: '', //username of eliminated player
             saved: '', //username of first to answer if they were dead
-            winner: true //true if all but one player eliminated
+            winner: '' 
         }
+        let winner = true; //true if all but one player eliminated
 
         let ord = this.rooms[room].order
         //loop from [last to first), eliminate last alive player to respond
@@ -104,7 +105,7 @@ class RoomManager{
             }
 
             //winner is true when all others are false
-            data.winner = data.winner && !this.rooms[room].players[ord[i]].alive;
+            winner = winner && !this.rooms[room].players[ord[i]].alive;
         }
 
         //first player to respond is always safe
@@ -113,8 +114,10 @@ class RoomManager{
             
             data.saved =  this.rooms[room].players[ord[0]].username;
         }
+
+        if(winner){ data.winner = this.rooms[room].players[ord[0]].username}
         
-        console.log(data.eliminated + " " + data.saved + " " + data.winner);
+        console.log(data.eliminated + " - " + data.saved + " - " + data.winner);
 
         return data;
     }

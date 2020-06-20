@@ -1,6 +1,6 @@
 body{
     background: #dedede;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
 }
 
 ::-webkit-scrollbar {
@@ -17,6 +17,7 @@ button,
 label{
     color: darkcyan;
     font-weight: 600;
+    margin: 5px;
 }
 
 .neu,
@@ -70,7 +71,7 @@ button:hover{
 }
 
 hr{
-    border: 1px solid darkcyan;
+    border: 2px solid darkcyan;
     margin: 20px;
 }
 

@@ -29,6 +29,7 @@ const rooms = require('./server/rooms');
 let RoomManager =  new rooms.RoomManager();
 
 const problems = require('./server/problem');
+const e = require('express');
 let ProblemGenerator = new problems.ProblemGenerator();
 
 //SOCKET EVENTS
@@ -93,8 +94,9 @@ game.on('connection', function(socket){
         //check if all users have answered
         if(RoomManager.checkAllAnswered(data.room)){
             //eliminate the last player
-            let gameData = RoomManager.updateAlive(data.room);
-
+            let roundData = RoomManager.updateAlive(data.room);
+            
+            game.in(data.room).emit('show-round-info', roundMsg(roundData));
             //send to host
             game.to(RoomManager.getHost(data.room)).emit('show-ready', true); 
         }
@@ -104,3 +106,14 @@ game.on('connection', function(socket){
     });
     
 });
+
+function roundMsg(roundData){
+    let msg = 'Round Complete';
+    if(roundData.winner != ''){
+        msg += `\n${roundData.winner} wins!`;
+    }else{
+        msg += roundData.saved != '' ? `\n${roundData.saved} is back!` : '';
+        msg += roundData.eliminated != '' ? `\n${roundData.eliminated} eliminated` : '';
+    }
+    return msg;
+}
