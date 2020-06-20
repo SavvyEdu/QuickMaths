@@ -20,7 +20,7 @@ label{
 }
 
 .neu,
-.neo.out{
+.neo-out{
     border-radius: 5px;
     background: #dedede;
     box-shadow:  4px 4px 8px #bdbdbd, 
@@ -28,7 +28,7 @@ label{
     border: none;
 }
 
-.neu.in{
+.neu-in{
     border-radius: 5px;
     background: #dedede;
     border: none;
@@ -39,7 +39,7 @@ label{
 input,
 th,
 td,
-.neu.inMin{
+.neu-inMin{
     border-radius: 2px;
     background: #dedede;
     border: none;
@@ -49,7 +49,7 @@ td,
 
 table,
 button,
-.neu.outMin{
+.neu-outMin{
     border-radius: 5px;
     background: #dedede;
     box-shadow:  2px 2px 4px #bdbdbd, 
@@ -76,10 +76,17 @@ hr{
 
 table{
     width: 100%;
-    border: 2px solid darkcyan;
+    border: 2px solid black;
 }
 th,
 td{
     text-align: center;
-    border: 2px solid darkcyan;
+    border: 2px solid black;
+    border-radius: 0;
+}
+
+.neu-inMin-alt{
+    background: rgb(222, 100,100);
+    box-shadow: inset 2px 2px 4px rgb(189, 85, 85),
+                inset -2px -2px 4px rgb(255, 115, 115)
 }

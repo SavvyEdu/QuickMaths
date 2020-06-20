@@ -32,11 +32,14 @@ $(function () {
 
     //update the names
     $('#name-table').empty();
+    //add table header 
     $('#name-table').append('<tr><th>Name</th><th>Time</th></tr>');
+
     for(let i = 0; i < count; i++){
-      let time = data.players[i].time;
-      let row = `<tr><td>${data.players[i].username}</td><td>${time == 0 ? '--' : time}</td></tr>`
-      $('#name-table').append(row);
+      let {username, time, alive} = data.players[i];
+      let cls = alive ? '' : 'class = neu-inMin-alt';
+      let row = `<tr><td ${cls}>${username}</td><td ${cls}>${time == 1000 ? '--' : time}</td></tr>`;
+      let element = $('#name-table').append(row);
     }
   });
 
