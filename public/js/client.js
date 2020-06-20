@@ -44,7 +44,11 @@ $(function () {
   });
 
   socket.on('show-ready', (data) => {
-    if(data){ show('#ready-button'); }
+    if(data){ 
+      show('#ready-button'); 
+    }else{
+      hide('#ready-button');
+    }
   })
 
   socket.on('show-round-info', (data) => {
@@ -96,7 +100,6 @@ function setMenuState(state){
           hide('#problem-menu');
           break;
         case 'PROBLEM':
-          hide('#ready-button'); //hide ready from host
           hide('#players-menu');
           show('#problem-menu');
           break;

@@ -40,15 +40,11 @@ game.on('connection', function(socket){
         console.log('user disconnected ' + socket.id);
         
         let room = RoomManager.removePlayer(socket.id);
-        console.log('removed from' + room);
         if(room != undefined){
             if(RoomManager.playerCount(room) == 0){
                 RoomManager.removeRoom(room);
             }else{
-                game.in(room).emit('update-players', {
-                    room: room,
-                    players: RoomManager.getPlayers(room)
-                });
+                game.in(room).emit('update-players', { players: RoomManager.getPlayers(room) });
             }
         }
         console.log(room);
@@ -83,8 +79,12 @@ game.on('connection', function(socket){
         RoomManager.resetRoom(data.room);
         game.in(data.room).emit('update-players', { players: RoomManager.getPlayers(data.room) });  
 
+        game.to(RoomManager.getHost(data.room)).emit('show-ready', false); 
+
         let problemData = ProblemGenerator.newProblem(); // { problem, solution }
         game.in(data.room).emit('show-problem', problemData);
+
+        
     });
 
     socket.on('solve', (data) => {

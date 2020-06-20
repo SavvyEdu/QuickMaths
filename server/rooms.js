@@ -117,8 +117,6 @@ class RoomManager{
 
         if(winner){ data.winner = this.rooms[room].players[ord[0]].username}
         
-        console.log(data.eliminated + " - " + data.saved + " - " + data.winner);
-
         return data;
     }
 
