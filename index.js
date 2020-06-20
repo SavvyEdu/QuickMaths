@@ -79,13 +79,23 @@ game.on('connection', function(socket){
     });
 
     socket.on('ready', (data) => {
+        RoomManager.resetPlayerTimes(data.room);
+        game.in(data.room).emit('update-players', { players: RoomManager.getPlayers(data.room) });  
+
         let problemData = ProblemGenerator.newProblem(); // { problem, solution }
         game.in(data.room).emit('show-problem', problemData);
     });
 
     socket.on('solve', (data) => {
         RoomManager.updatePlayerTime(data.room, socket.id, data.time);
-        game.in(data.room).emit('update-players', { players: RoomManager.getPlayers(data.room) });
+        game.in(data.room).emit('update-players', { players: RoomManager.getPlayersByTime(data.room) });
+
+        //check if all users have answered
+        if(RoomManager.checkAllAnswered(data.room)){
+            //send to host
+            game.to(RoomManager.getHost(data.room)).emit('show-ready', true); 
+        }
+
     });
     
 });

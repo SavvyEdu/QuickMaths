@@ -19,13 +19,10 @@ $(function () {
   });
 
   socket.on('join', (data) => {
-
-    console.log('join' + data.room);
-
-    room = data.room
-    $('#code-display').text(data.room);
+    room = data.room; //set the room
+    $('#code-display').text(data.room); //show the room
     setMenuState('READY');
-  })
+  });
 
   socket.on('update-players', (data) => {  
    
@@ -37,9 +34,14 @@ $(function () {
     $('#name-table').empty();
     $('#name-table').append('<tr><th>Name</th><th>Time</th></tr>');
     for(let i = 0; i < count; i++){
-      let row = `<tr><td>${data.players[i].username}</td><td>${data.players[i].time}</td></tr>`
+      let time = data.players[i].time;
+      let row = `<tr><td>${data.players[i].username}</td><td>${time == 0 ? '--' : time}</td></tr>`
       $('#name-table').append(row);
     }
+  });
+
+  socket.on('show-ready', (data) => {
+    if(data){ show('#ready-button'); }
   })
 
   socket.on('show-problem', (data) => {
@@ -76,6 +78,7 @@ function setMenuState(state){
           isHost = false;
           hide('#initial-menu');
           hide('#problem-menu');
+          hide('#ready-button'); //hide the ready button for non host
           show('#join-menu');
           show('#code-menu');
           break;
@@ -84,11 +87,9 @@ function setMenuState(state){
           show('#game-menu');  
           show('#players-menu');
           hide('#problem-menu');
-          if(!isHost){ //only the host can set start the game
-            hide('#ready-button')
-          }
           break;
         case 'PROBLEM':
+          hide('#ready-button'); //hide ready from host
           hide('#players-menu');
           show('#problem-menu');
           break;

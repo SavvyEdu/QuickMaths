@@ -37,14 +37,21 @@ class RoomManager{
     addPlayer(room, id, username){
         this.rooms[room][id] = {
             username: username,
-            time: 0
+            time: 0,
+            alive: true
         }
 
         this.idToRoom[id] = room;
     }
-    
+
+    //Get the number of players in the room
     playerCount(room){
         return Object.keys(this.rooms[room]).length;
+    }
+
+    //Get the socket id of the host player
+    getHost(room){
+        return Object.keys(this.rooms[room])[0];
     }
 
     getPlayers(room){
@@ -55,8 +62,27 @@ class RoomManager{
         return players;
     }
 
+    getPlayersByTime(room, sortFunc){
+        return this.getPlayers(room).sort((a, b) => a.time - b.time);
+    }
+
+    resetPlayerTimes(room){
+        for(let id in this.rooms[room]){
+            this.updatePlayerTime(room, id, 0);
+        }
+    }
+
     updatePlayerTime(room, id, time){
         this.rooms[room][id].time = time;
+    }
+
+    checkAllAnswered(room){
+        for(let id in this.rooms[room]){
+            if( this.rooms[room][id].time == 0){
+                return false;
+            }
+        }
+        return true;
     }
 
     removePlayer(id){
