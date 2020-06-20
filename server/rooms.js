@@ -23,6 +23,7 @@ class RoomManager{
         //add to dictionary
         this.rooms[room] = {
             order: [], //array of ids
+            host: '',
             players: {}
         };
 
@@ -39,6 +40,11 @@ class RoomManager{
     }   
 
     addPlayer(room, id, username){
+
+        if(this.playerCount(room) == 0){
+            this.rooms[room].host = id;
+        }
+
         this.rooms[room].players[id] = {
             username: username,
             time: this.MAX_TIME,
@@ -55,7 +61,7 @@ class RoomManager{
 
     //Get the socket id of the host player
     getHost(room){
-        return Object.keys(this.rooms[room].players)[0];
+        return this.rooms[room].host;
     }
 
     getPlayers(room){
@@ -115,8 +121,8 @@ class RoomManager{
             data.saved =  this.rooms[room].players[ord[0]].username;
         }
 
-        if(winner){ data.winner = this.rooms[room].players[ord[0]].username}
-        
+        if(winner){ data.winner = this.rooms[room].players[ord[0]].username }
+
         return data;
     }
 
