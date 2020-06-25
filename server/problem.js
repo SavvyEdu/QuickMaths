@@ -6,6 +6,9 @@ class ProblemGenerator{
     newProblem(){
         //generate problem and solution
 
+        
+
+
         //return data
         return {
             problem: '2 + 2 = __',

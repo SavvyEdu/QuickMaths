@@ -33,11 +33,16 @@ article li{
     border: 2px solid darkcyan;
 }
 
-#messages li:nth-child(even) { background: rgba(50, 50, 50, 0.1); }
-#messages li:nth-child(odd) { background: rgba(150 , 150, 150, 0.1); }
-
 .flex{
     display: flex;
+}
+
+label{
+    display: inline;
+}
+
+input{
+    padding: 5px;
 }
 
 input,
@@ -60,7 +65,26 @@ margin-left: 10px;
 min-height: 500px;
 }
 
+table{
+    width: 100%;
+}
+
+th,
+td{
+    text-align: center;
+    border-radius: 0;
+}
+
 p{
     margin-bottom: 1rem;
     white-space: pre-line; /* for new line (\n) */
+}
+
+::-webkit-scrollbar {
+    width: 0.5em;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background: darkcyan;
 }

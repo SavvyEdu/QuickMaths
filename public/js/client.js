@@ -64,6 +64,13 @@ $(function () {
     startTime = Date.now();
   });
 
+  $('#num-problems-output').text(`Problems: ${ $('#num-problems').val() }`);
+  $('#num-problems').change(function(){
+    $('#num-problems-output').text(`Problems: ${ $('#num-problems').val() }`);
+  });
+
+  
+
 });
 
 //MENU AND NAVIGATION 
@@ -83,12 +90,14 @@ function setMenuState(state){
         case 'HOST':
           isHost = true;
           hide('#initial-menu');
+          show('#host-menu');
           show('#join-menu');
           break;
         case 'JOIN':
           isHost = false;
           hide('#initial-menu');
           hide('#problem-menu');
+          hide('#host-menu');
           hide('#ready-button'); //hide the ready button for non host
           show('#join-menu');
           show('#code-menu');

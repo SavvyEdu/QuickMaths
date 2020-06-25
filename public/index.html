@@ -4,7 +4,7 @@
     <title>Quick Maths</title>
     <link href = "css/skeleton.css" rel = "stylesheet"/>
     <link href = "css/normalize.css" rel = "stylesheet"/>
-    <link href = "css/neumorphic.css" rel = "stylesheet"/>
+    <!--<link href = "css/neumorphic.css" rel = "stylesheet"/>-->
     <link href = "css/style.css" rel = "stylesheet"/>
   </head>
   <body>
@@ -22,9 +22,31 @@
         <div id = "initial-menu">
           <button id = "host-button">Host</button>
           <button id = "join-button">Join</button> 
+          <div style="height: 50px;"></div>
+          <p><a href = "https://github.com/SavvyEdu/QuickMaths">View on Github</a></p>
         </div>
 
         <div id = "join-menu">
+          <div id = "host-menu" style = "width: 200px; text-align: left; margin: auto;">
+            
+            <label for="num-problems" id = "num-problems-output">Problems: 0</label>
+            <br>
+            <input type="range" min="1" max="12" value="6" class="slider"  id = "num-problems" style = "width: 100%;"/>           
+            <br>
+            <input type="checkbox" id="addition" name="add" value="add">
+            <label for="addition">Addition</label>
+            <br>
+            <input type="checkbox" id="addition" name="add" value="add">
+            <label for="addition">Subtraction</label>
+            <br>
+            <input type="checkbox" id="addition" name="add" value="add">
+            <label for="addition">Multiplication</label>
+            <br>
+            <input type="checkbox" id="addition" name="add" value="add">
+            <label for="addition">Division</label>
+            <br>
+
+          </div>
           <div id = "code-menu">
             <input id="code" placeholder = "Room code" autocomplete="off"/>
           </div>
