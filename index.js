@@ -55,7 +55,7 @@ game.on('connection', function(socket){
         let room = RoomManager.addRoom(); //make a new room
         socket.join(room); //join the room
         RoomManager.addPlayer(room, socket.id, data.name);//add player to room
-
+        ProblemGenerator.setProblemData(data.problemData);
         //send back the room code 
         game.to(socket.id).emit('join', { room: room });
         game.in(room).emit('update-players', { players: RoomManager.getPlayers(room) }); 
@@ -81,7 +81,7 @@ game.on('connection', function(socket){
 
         game.to(RoomManager.getHost(data.room)).emit('show-ready', false); 
 
-        let problemData = ProblemGenerator.newProblem(); // { problem, solution }
+        let problemData = ProblemGenerator.newProblems(); // { problem, solution }
         game.in(data.room).emit('show-problem', problemData);
 
         

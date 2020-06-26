@@ -1,7 +1,8 @@
 let room = 'ffff'; //room this player has joined
 let socket; //socket ref
 
-let solution; //solution to the given problem
+let problems = [];
+let problemIndex = 0;
 
 let username = '';
 let isHost = false;
@@ -37,7 +38,7 @@ $(function () {
 
     for(let i = 0; i < count; i++){
       let {username, time, alive} = data.players[i];
-      let cls = alive ? '' : 'class = neu-inMin-alt';
+      let cls = alive ? '' : 'class = dq';
       let row = `<tr><td ${cls}>${username}</td><td ${cls}>${time == 1000 ? '--' : time}</td></tr>`;
       let element = $('#name-table').append(row);
     }
@@ -57,8 +58,11 @@ $(function () {
 
   socket.on('show-problem', (data) => {
     setMenuState('PROBLEM');
-    solution = data.solution; //store the solution
-    $('#problem').text(data.problem);
+
+    problems = data;
+    problemIndex = 0;
+
+    $('#problem').text(problems[problemIndex].problem);
 
     //start the timer
     startTime = Date.now();
@@ -68,8 +72,6 @@ $(function () {
   $('#num-problems').change(function(){
     $('#num-problems-output').text(`Problems: ${ $('#num-problems').val() }`);
   });
-
-  
 
 });
 
@@ -125,9 +127,18 @@ $('#start-button').click(function(){
     let code =  $('#code').val();
     username =  $('#name').val();
 
+    let numProblems = $('#num-problems').val();
+    let add = $('input[name=add]').is(':checked');
+    let sub = $('input[name=sub]').is(':checked');
+    let mul = $('input[name=mul]').is(':checked');
+    let div = $('input[name=div]').is(':checked');
+
     if(isHost){
-      if(username != ""){
-        socket.emit('host', { name: username })
+      if(username != "" && (add || sub || mul || div)){
+        socket.emit('host', { 
+          name: username, 
+          problemData: [numProblems, add, sub, mul, div], 
+        });
       }
     }else{
       if(username != ""){
@@ -148,10 +159,16 @@ $('#problem-form').submit(function(e) {
   
   let answer = parseInt($('#s').val());
 
-  if(answer == solution){
-    let milliseconds = Date.now() - startTime;
-    socket.emit('solve', {name: username, room: room, time: milliseconds / 1000 });
-    setMenuState('READY');
+  if(answer == problems[problemIndex].solution){
+
+    problemIndex ++;
+    if(problemIndex >= problems.length){
+      let milliseconds = Date.now() - startTime;
+      socket.emit('solve', {name: username, room: room, time: milliseconds / 1000 });
+      setMenuState('READY');
+    }else{
+      $('#problem').text(problems[problemIndex].problem);
+    }
   }
 
   return false;
